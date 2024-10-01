@@ -16,7 +16,7 @@ const Login = () => {
     const loginFormSubmitted = async (event: any) => {
         event.preventDefault();
         try {
-            const response = await axios.post("http://localhost:5000/api/auth/login", {
+            const response = await axios.post("https://task-tracker-1-08v5.onrender.com/api/auth/login", {
                 email: loginData.email,
                 password: loginData.password,
             });

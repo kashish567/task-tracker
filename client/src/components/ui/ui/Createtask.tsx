@@ -21,7 +21,7 @@ const AddTask = () => {
   });
 
   const [users, setUsers] = useState([]); // State to store all users for dropdown
-  const apiURL = "http://localhost:5000/api/tasks/";
+  const apiURL = "https://task-tracker-1-08v5.onrender.com/api/tasks/";
 
   // Fetch all users on component mount
   useEffect(() => {
@@ -34,7 +34,7 @@ const AddTask = () => {
           },
         };
 
-        const response = await axios.get("http://localhost:5000/api/auth/get-all-user", config);
+        const response = await axios.get("https://task-tracker-1-08v5.onrender.com/api/auth/get-all-user", config);
         console.log(response.data);
         setUsers(response.data);
       } catch (error) {

@@ -44,7 +44,7 @@ const ViewTasks = () => {
           assignedUser: filter.assignedUser,
         };
 
-        const response = await axios.get("http://localhost:5000/api/tasks/", {
+        const response = await axios.get("https://task-tracker-1-08v5.onrender.com/api/tasks/", {
           ...config,
           params, // Include the filters as query parameters
         });
@@ -73,7 +73,7 @@ const ViewTasks = () => {
         },
       };
 
-      await axios.delete(`http://localhost:5000/api/tasks/${taskId}`, config);
+      await axios.delete(`https://task-tracker-1-08v5.onrender.com/api/tasks/${taskId}`, config);
       setTasks(tasks.filter((task) => task._id !== taskId));
 
       toast.success("Task deleted successfully!", { position: "top-right" });

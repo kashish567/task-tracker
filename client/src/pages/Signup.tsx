@@ -36,7 +36,7 @@ const SignUp = () => {
 
     try {
       // Make an API call to the register endpoint
-      const response = await axios.post("http://localhost:5000/api/auth/register", {
+      const response = await axios.post("https://task-tracker-1-08v5.onrender.com/api/auth/register", {
         name: data.name,
         email: data.email,
         password: data.password,

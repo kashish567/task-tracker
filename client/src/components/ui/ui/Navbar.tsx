@@ -16,7 +16,7 @@ const Navbar: FC = () => {
                     Authorization: `Bearer ${token}`,
                 },
             };
-            const { data } = await axios.get("http://localhost:5000/api/auth/getUser", config);
+            const { data } = await axios.get("https://task-tracker-1-08v5.onrender.com/api/auth/getUser", config);
             dispatch(setUser(data));
         } catch (error) {
             console.error("Error fetching user data", error);
@@ -46,7 +46,7 @@ const Navbar: FC = () => {
                     Authorization: `Bearer ${localStorage.getItem("token")}`,
                 },
             };
-            const response = await axios.get('http://localhost:5000/api/tasks/report?format=csv', config);
+            const response = await axios.get('https://task-tracker-1-08v5.onrender.com/api/tasks/report?format=csv', config);
 
             // Debugging: Log response to check if CSV data is correct
             console.log("CSV Data: ", response.data);

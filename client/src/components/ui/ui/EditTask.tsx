@@ -19,7 +19,7 @@ const EditTask = () => {
   });
 
   // Axios configuration
-  const apiURL = "http://localhost:5000/api/tasks/"; // Replace with your actual API endpoint
+  const apiURL = "https://task-tracker-1-08v5.onrender.com/api/tasks/"; // Replace with your actual API endpoint
 
   // Fetch task details using taskId when component mounts
   useEffect(() => {
