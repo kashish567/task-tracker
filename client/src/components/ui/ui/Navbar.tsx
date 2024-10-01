@@ -69,7 +69,7 @@ const Navbar: FC = () => {
         <nav className="bg-purple-800 h-20 flex justify-between items-center px-8">
             <div className="logo">
                 <h1 className="font-bold text-white text-xl italic">
-                    <a href="/">Task Tracker</a>
+                    <Link to="/">Task Tracker</Link>
                 </h1>
             </div>
             <div>
@@ -106,8 +106,8 @@ const Navbar: FC = () => {
                         </>
                     ) : (
                         <>
-                            <li><a href="/login" className="text-white hover:text-yellow-400 hover:font-extrabold font-semibold">LOGIN</a></li>
-                            <li><a href="/signup" className="text-white hover:text-yellow-400 hover:font-extrabold font-semibold">SIGNUP</a></li>
+                            <li><Link to="/login" className="text-white hover:text-yellow-400 hover:font-extrabold font-semibold">LOGIN</Link></li>
+                            <li><Link to="/signup" className="text-white hover:text-yellow-400 hover:font-extrabold font-semibold">SIGNUP</Link></li>
                         </>
                     )}
                 </ul>
