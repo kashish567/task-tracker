@@ -9,11 +9,12 @@ const router = Router();
 // Create a task
 router.post("/", authMiddleware, async (req, res) => {
   try {
-    const { title, description, dueDate, priority, status, assignedUser } = req.body;
-    
+    const { title, description, dueDate, priority, status, assignedUser } =
+      req.body;
+
     // Log the incoming data for debugging
     console.log("Request Body:", req.body);
-    
+
     // Create a new task
     const task = new Task({
       title,
@@ -21,10 +22,10 @@ router.post("/", authMiddleware, async (req, res) => {
       dueDate,
       priority,
       status,
-      createdBy: req.user.id,  // Assuming req.user is populated by authMiddleware
-      assignedUser
+      createdBy: req.user.id, // Assuming req.user is populated by authMiddleware
+      assignedUser: assignedUser ? assignedUser : null, // Set to null if not provided
     });
-    
+
     // Save the task to the database
     await task.save();
 
@@ -35,27 +36,28 @@ router.post("/", authMiddleware, async (req, res) => {
     }
     user.tasks.push(task._id);
     await user.save();
-    
+
     // Log user task array after push
     console.log("Creator's task array:", user.tasks);
 
-    // Add the task to the assigned user's task array
-    const assignUser = await User.findById(assignedUser);
-    if (!assignUser) {
-      return res.status(404).json({ message: "Assigned user not found" });
+    // Add the task to the assigned user's task array only if assignedUser is provided
+    if (assignedUser) {
+      const assignUser = await User.findById(assignedUser);
+      if (!assignUser) {
+        return res.status(404).json({ message: "Assigned user not found" });
+      }
+      assignUser.tasks.push(task._id);
+      await assignUser.save();
+
+      // Log assigned user task array after push
+      console.log("Assigned user's task array:", assignUser.tasks);
     }
-    assignUser.tasks.push(task._id);
-    await assignUser.save();
-    
-    // Log assigned user task array after push
-    console.log("Assigned user's task array:", assignUser.tasks);
 
     // Send the created task as a response
     res.json(task);
-
   } catch (err) {
     console.error("Error in task creation:", err);
-    res.status(500).json({ message: "Server --------" });
+    res.status(500).json({ message: "Server error" });
   }
 });
 
@@ -69,7 +71,6 @@ router.get("/", authMiddleware, async (req, res) => {
     return res.status(500).json({ message: "Server " });
   }
 });
-
 
 router.get("/report", async (req, res) => {
   try {
@@ -142,7 +143,9 @@ router.get("/report", async (req, res) => {
     }
   } catch (err) {
     console.log("Error generating report: ", err);
-    return res.status(500).json({ message: "Server error", error: err.message });
+    return res
+      .status(500)
+      .json({ message: "Server error", error: err.message });
   }
 });
 
@@ -165,12 +168,12 @@ router.get("/:id", authMiddleware, async (req, res) => {
 
 router.put("/:id", authMiddleware, async (req, res) => {
   try {
-    const { title, description, dueDate, priority,status } = req.body;
-    
+    const { title, description, dueDate, priority, status } = req.body;
+
     const task = await Task.findById(req.params.id);
-    console.log(task)
+    console.log(task);
     if (!task) return res.status(404).json({ message: "Task not found" });
-    
+
     if (task.createdBy.toString() !== req.user.id)
       return res.status(401).json({ message: "Not authorized" });
     task.title = title;
@@ -181,7 +184,7 @@ router.put("/:id", authMiddleware, async (req, res) => {
     await task.save();
     return res.json(task);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     return res.status(500).json({ message: "Server task" });
   }
 });
@@ -222,6 +225,5 @@ router.delete("/:id", authMiddleware, async (req, res) => {
     return res.status(500).json({ message: "Server meesage" });
   }
 });
-
 
 export default router;
