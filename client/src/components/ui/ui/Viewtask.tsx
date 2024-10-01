@@ -1,21 +1,38 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ChangeEvent } from "react";
 import { Link } from "react-router-dom"; // For navigation
 import { useSelector } from "react-redux"; // For accessing the Redux state
 import axios from "axios"; // For API calls
 import { toast } from "react-toastify"; // To show success or error messages
 
+// Define the task type
+interface Task {
+  _id: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  priority: string;
+  status: string;
+  createdBy: string;
+}
+
+interface Filter {
+  status: string;
+  priority: string;
+  assignedUser: string;
+}
+
 const ViewTasks = () => {
-  const [tasks, setTasks] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState({
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [filter, setFilter] = useState<Filter>({
     status: '',
     priority: '',
     assignedUser: '',
   });
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>('');
 
   // Get the user ID from Redux store
-  const userId = useSelector((state) => state.user.user._id);
+  const userId = useSelector((state: any) => state.user.user._id);
 
   // Fetch tasks from the backend
   useEffect(() => {
@@ -48,7 +65,6 @@ const ViewTasks = () => {
           ...config,
           params, // Include the filters as query parameters
         });
-        console.log(response.data);
         setTasks(response.data);
         setLoading(false);
       } catch (error) {
@@ -59,7 +75,7 @@ const ViewTasks = () => {
     fetchTasks();
   }, [filter]); // Refetch tasks whenever the filter changes
 
-  const handleDelete = async (taskId) => {
+  const handleDelete = async (taskId: string) => {
     try {
       const token = localStorage.getItem("token");
       if (!token) {
@@ -83,12 +99,12 @@ const ViewTasks = () => {
   };
 
   // Handler for search input
-  const handleSearchChange = (e) => {
+  const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
   };
 
   // Handler for filter changes
-  const handleFilterChange = (e) => {
+  const handleFilterChange = (e: ChangeEvent<HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFilter((prev) => ({ ...prev, [name]: value }));
   };

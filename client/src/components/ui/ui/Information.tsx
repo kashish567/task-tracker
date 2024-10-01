@@ -1,4 +1,3 @@
-import React from "react";
 import infoImage from "../../../../public/login.png"; // Replace with your actual image path
 
 const Information = () => {

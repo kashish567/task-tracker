@@ -2,7 +2,7 @@
 import { useSelector } from 'react-redux'; // Make sure this is imported
 
 const SomeComponent = () => {
-    const user = useSelector((state) => state.user); // Access user from the Redux store
+    const user = useSelector((state:any) => state.user); // Access user from the Redux store
 
     return (
         <div>
